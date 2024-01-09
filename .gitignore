@@ -18,6 +18,8 @@ bin/
 !**/src/test/**/bin/
 
 ### IntelliJ IDEA ###
+src/main/resources/application.properties
+
 .idea
 *.iws
 *.iml
@@ -35,6 +37,3 @@ out/
 
 ### VS Code ###
 .vscode/
-
-### sql logging info ###
-/main/resources/application.properties

@@ -1,6 +1,7 @@
 package com.fisrtproject.forum.controller;
 
 import com.fisrtproject.forum.service.BoardService;
+import org.hibernate.query.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,5 +23,4 @@ public class BoardController {
         model.addAttribute("content", boardService.hello());
         return "home";
     }
-
 }

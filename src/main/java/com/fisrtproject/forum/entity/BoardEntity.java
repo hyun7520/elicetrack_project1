@@ -26,4 +26,7 @@ public class BoardEntity {
     private List<PostEntity> posts = new ArrayList<>();
 
     private String topic;
+
+    @Column(name="board-about")
+    private String boardAbout;
 }

@@ -1,6 +1,6 @@
 package com.fisrtproject.forum.service;
 
-import com.fisrtproject.forum.entity.PostEntity;
+import com.fisrtproject.forum.entity.BoardEntity;
 import com.fisrtproject.forum.repository.JdbcTemplateBoardRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -14,11 +14,11 @@ public class BoardService {
 
     private final JdbcTemplateBoardRepository boardRepository;
 
-    public List<PostEntity> getAllPosts() {
+    public List<BoardEntity> getAllPosts() {
         return boardRepository.findAll();
     }
 
-    public Optional<PostEntity> findSubject(Long id) {
+    public Optional<BoardEntity> findSubject(Long id) {
         return boardRepository.findById(id);
     }
 }

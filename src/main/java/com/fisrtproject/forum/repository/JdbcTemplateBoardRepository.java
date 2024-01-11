@@ -1,5 +1,6 @@
 package com.fisrtproject.forum.repository;
 
+import com.fisrtproject.forum.entity.BoardEntity;
 import com.fisrtproject.forum.entity.PostEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -19,24 +20,22 @@ public class JdbcTemplateBoardRepository {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    private final RowMapper<PostEntity> postMapper() {
+    private final RowMapper<BoardEntity> boardMapper() {
         return (rs, rowNum) -> {
-            PostEntity post = new PostEntity();
-            post.setId(rs.getLong("post_id"));
-            post.setTitle(rs.getString("title"));
-            post.setContent(rs.getString("content"));
-            post.setCreatedAt(rs.getTimestamp("created_at"));
-            return post;
+            BoardEntity board = new BoardEntity();
+            board.setId(rs.getLong("board_id"));
+            board.setTopic(rs.getString("topic"));
+            return board;
         };
     }
 
-    public List<PostEntity> findAll() {
-        return jdbcTemplate.query("SELECT * FROM post", postMapper());
+    public List<BoardEntity> findAll() {
+        return jdbcTemplate.query("SELECT * FROM board", boardMapper());
     }
 
-    public Optional<PostEntity> findById(Long id) {
+    public Optional<BoardEntity> findById(Long id) {
         return jdbcTemplate
-                .query("SELECT * FROM post WHERE post_id = ?", postMapper(), id)
+                .query("SELECT * FROM post WHERE board_id = ?", boardMapper(), id)
                 .stream()
                 .findFirst();
     }

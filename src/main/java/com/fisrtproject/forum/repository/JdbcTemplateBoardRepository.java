@@ -1,5 +1,6 @@
 package com.fisrtproject.forum.repository;
 
+import com.fisrtproject.forum.dto.BoardCreateDto;
 import com.fisrtproject.forum.entity.BoardEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -43,5 +44,10 @@ public class JdbcTemplateBoardRepository {
     public void save(BoardEntity board) {
         String sql = "INSERT INTO board(topic, board_about) VALUES (?, ?)";
         jdbcTemplate.update(sql, board.getTopic(), board.getBoardAbout());
+    }
+
+    public void updateBoard(Long id, BoardCreateDto boardCreateDto) {
+        String sql = "UPDATE board SET topic = ?, board_about = ? WHERE board_id = ?";
+        jdbcTemplate.update(sql, boardCreateDto.getTopic(), boardCreateDto.getBoardAbout(), id);
     }
 }

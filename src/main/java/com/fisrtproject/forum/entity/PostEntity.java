@@ -1,10 +1,7 @@
 package com.fisrtproject.forum.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -13,7 +10,6 @@ import java.util.List;
 @Entity
 @Table(name = "post")
 @NoArgsConstructor
-@AllArgsConstructor
 @Getter
 public class PostEntity {
 
@@ -22,21 +18,25 @@ public class PostEntity {
     @Column(name="post_id")
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="board_id")
     private BoardEntity boardEntity;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="user_id")
     private UserEntity userEntity;
 
-    @ManyToOne
+    @OneToMany
     @JoinColumn(name="comment_id")
-    private CommentEntity commentEntity;
-
+    private List<CommentEntity> comments = new ArrayList<>();
 
     private String title;
     private String content;
     private Timestamp createdAt;
+
+    public void updateBoard(BoardEntity boardEntity) {
+        this.boardEntity = boardEntity;
+        boardEntity.getPosts().add(this);
+    }
 
 }

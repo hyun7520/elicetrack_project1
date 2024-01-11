@@ -1,5 +1,6 @@
 package com.fisrtproject.forum.entity;
 
+import com.fisrtproject.forum.service.PostService;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -19,7 +20,7 @@ public class BoardEntity {
     @Column(name = "board_id")
     private Long id;
 
-    @OneToMany(mappedBy = "boardEntity")
+    @OneToMany(mappedBy = "boardEntity", cascade = CascadeType.ALL)
     private List<PostEntity> posts = new ArrayList<>();
 
     private String topic;
@@ -28,8 +29,23 @@ public class BoardEntity {
     private String boardAbout;
 
     @Builder
-    public BoardEntity(String topic, String boardAbout) {
+    public BoardEntity(String topic, String boardAbout, List<PostEntity> posts) {
         this.topic = topic;
         this.boardAbout =boardAbout;
+        this.posts = posts;
     }
+
+    public static BoardEntity createBoard(String topic, String boardAbout, List<PostEntity> posts) {
+        return BoardEntity.builder()
+                .topic(topic)
+                .boardAbout(boardAbout)
+                .posts(posts)
+                .build();
+    }
+
+    public void updatePosts(final PostEntity postEntity) {
+        posts.add(postEntity);
+        postEntity.updateBoard(this);
+    }
+
 }

@@ -21,13 +21,12 @@ public class ForumController {
 
     @GetMapping
     public List<BoardEntity> getBoards() {
-        System.out.println("get all posts");
-        return boardService.getAllPosts();
+        return boardService.getAllBoards();
     }
 
     @GetMapping("/{boardId}")
-    public Optional<BoardEntity> getBoardById(@PathVariable("postId") Long id) {
-        return boardService.findSubject(id);
+    public Optional<BoardEntity> getBoardById(@PathVariable("boardId") Long id) {
+        return boardService.findBoard(id);
     }
 
     @PostMapping("/createBoard")
@@ -35,9 +34,8 @@ public class ForumController {
         boardService.createBoard(boardCreateDto);
     }
 
-    // 게시글 생성 페이지 - 추후 작성
-    @GetMapping("/createPost")
-    public String getAddView() {
-        return "addPostForm";
+    @GetMapping("/{boardId}/update")
+    public void updateBoard(@PathVariable("boardId") Long id, @RequestBody BoardCreateDto boardCreateDto) {
+        boardService.updateBoard(id, boardCreateDto);
     }
 }

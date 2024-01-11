@@ -6,8 +6,8 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
-import javax.sql.DataSource;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public class JdbcTemplateBoardRepository {
@@ -32,5 +32,12 @@ public class JdbcTemplateBoardRepository {
 
     public List<PostEntity> findAll() {
         return jdbcTemplate.query("SELECT * FROM post", postMapper());
+    }
+
+    public Optional<PostEntity> findById(Long id) {
+        return jdbcTemplate
+                .query("SELECT * FROM post WHERE post_id = ?", postMapper(), id)
+                .stream()
+                .findFirst();
     }
 }

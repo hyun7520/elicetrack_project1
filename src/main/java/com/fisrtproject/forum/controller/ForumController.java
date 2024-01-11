@@ -3,11 +3,10 @@ package com.fisrtproject.forum.controller;
 import com.fisrtproject.forum.entity.PostEntity;
 import com.fisrtproject.forum.service.BoardService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequiredArgsConstructor
@@ -21,4 +20,11 @@ public class ForumController {
         System.out.println("get all posts");
         return boardService.getAllPosts();
     }
+
+    @GetMapping("/{postId}")
+    public Optional<PostEntity> getPostById(@PathVariable("postId") Long id) {
+        Optional<PostEntity> foundPost = boardService.findSubject(id);
+        return foundPost;
+    }
+
 }

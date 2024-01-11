@@ -1,5 +1,6 @@
 package com.fisrtproject.forum.controller;
 
+import com.fisrtproject.forum.dto.BoardCreateDto;
 import com.fisrtproject.forum.entity.BoardEntity;
 import com.fisrtproject.forum.entity.PostEntity;
 import com.fisrtproject.forum.service.BoardService;
@@ -29,8 +30,13 @@ public class ForumController {
         return boardService.findSubject(id);
     }
 
+    @PostMapping("/createBoard")
+    public void createNewBoard(@RequestBody BoardCreateDto boardCreateDto) {
+        boardService.createBoard(boardCreateDto);
+    }
+
     // 게시글 생성 페이지 - 추후 작성
-    @GetMapping("/create")
+    @GetMapping("/createPost")
     public String getAddView() {
         return "addPostForm";
     }

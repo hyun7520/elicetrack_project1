@@ -1,10 +1,7 @@
 package com.fisrtproject.forum.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,8 +10,8 @@ import java.util.List;
 @Table(name = "board")
 @NoArgsConstructor
 @AllArgsConstructor
-@Getter
 @Setter
+@Getter
 public class BoardEntity {
 
     @Id
@@ -27,6 +24,12 @@ public class BoardEntity {
 
     private String topic;
 
-    @Column(name="board-about")
+    @Column(name="board_about")
     private String boardAbout;
+
+    @Builder
+    public BoardEntity(String topic, String boardAbout) {
+        this.topic = topic;
+        this.boardAbout =boardAbout;
+    }
 }

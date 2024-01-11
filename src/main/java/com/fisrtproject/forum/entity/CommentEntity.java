@@ -10,9 +10,9 @@ import java.sql.Timestamp;
 
 @Entity
 @Getter
-@Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Table(name = "comment")
 public class CommentEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

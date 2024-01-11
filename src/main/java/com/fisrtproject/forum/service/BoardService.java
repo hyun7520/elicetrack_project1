@@ -1,5 +1,6 @@
 package com.fisrtproject.forum.service;
 
+import com.fisrtproject.forum.dto.BoardCreateDto;
 import com.fisrtproject.forum.entity.BoardEntity;
 import com.fisrtproject.forum.repository.JdbcTemplateBoardRepository;
 import lombok.RequiredArgsConstructor;
@@ -20,5 +21,13 @@ public class BoardService {
 
     public Optional<BoardEntity> findSubject(Long id) {
         return boardRepository.findById(id);
+    }
+
+    public void createBoard(BoardCreateDto boardCreateDto) {
+        BoardEntity board = BoardEntity.builder()
+                .topic(boardCreateDto.getTopic())
+                .boardAbout(boardCreateDto.getBoardAbout())
+                .build();
+        boardRepository.save(board);
     }
 }

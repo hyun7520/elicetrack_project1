@@ -15,7 +15,6 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
-@Setter
 public class PostEntity {
 
     @Id

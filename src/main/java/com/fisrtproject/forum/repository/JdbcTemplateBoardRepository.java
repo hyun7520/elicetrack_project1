@@ -1,7 +1,6 @@
 package com.fisrtproject.forum.repository;
 
 import com.fisrtproject.forum.entity.BoardEntity;
-import com.fisrtproject.forum.entity.PostEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -25,6 +24,7 @@ public class JdbcTemplateBoardRepository {
             BoardEntity board = new BoardEntity();
             board.setId(rs.getLong("board_id"));
             board.setTopic(rs.getString("topic"));
+            board.setBoardAbout(rs.getString("board_about"));
             return board;
         };
     }
@@ -38,5 +38,10 @@ public class JdbcTemplateBoardRepository {
                 .query("SELECT * FROM post WHERE board_id = ?", boardMapper(), id)
                 .stream()
                 .findFirst();
+    }
+
+    public void save(BoardEntity board) {
+        String sql = "INSERT INTO board(topic, board_about) VALUES (?, ?)";
+        jdbcTemplate.update(sql, board.getTopic(), board.getBoardAbout());
     }
 }

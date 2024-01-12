@@ -50,4 +50,11 @@ public class JdbcTemplateBoardRepository {
         String sql = "UPDATE board SET topic = ?, board_about = ? WHERE board_id = ?";
         jdbcTemplate.update(sql, boardCreateDto.getTopic(), boardCreateDto.getBoardAbout(), id);
     }
+
+    public void deleteBoard(Long id) {
+        String sql = "DELETE FROM post WHERE board_id = ?";
+        jdbcTemplate.update(sql, id);
+        sql = "DELETE FROM board WHERE board_id = ?";
+        jdbcTemplate.update(sql, id);
+    }
 }

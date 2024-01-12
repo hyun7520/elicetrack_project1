@@ -38,4 +38,9 @@ public class ForumController {
     public void updateBoard(@PathVariable("boardId") Long id, @RequestBody BoardCreateDto boardCreateDto) {
         boardService.updateBoard(id, boardCreateDto);
     }
+
+    @DeleteMapping("/{boardId}/delete")
+    public void deleteBoard(@PathVariable("boardId") Long id) {
+        boardService.deleteBoard(id);
+    }
 }

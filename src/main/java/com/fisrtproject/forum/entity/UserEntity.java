@@ -13,11 +13,11 @@ public class UserEntity {
     @Column(name = "user_id")
     private Long id;
 
-    @OneToMany(mappedBy="userEntity")
-    private List<PostEntity> posts;
-
-    @OneToMany(mappedBy="userEntity")
-    private List<CommentEntity> comments;
+//    @OneToMany(mappedBy="userEntity")
+//    private List<PostEntity> posts;
+//
+//    @OneToMany(mappedBy="userEntity")
+//    private List<CommentEntity> comments;
 
     private String nickName;
 }

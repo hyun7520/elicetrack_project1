@@ -22,13 +22,13 @@ public class PostEntity {
     @JoinColumn(name="board_id")
     private BoardEntity boardEntity;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="user_id")
-    private UserEntity userEntity;
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name="user_id")
+//    private UserEntity userEntity;
 
-    @OneToMany
-    @JoinColumn(name="comment_id")
-    private List<CommentEntity> comments = new ArrayList<>();
+//    @OneToMany
+//    @JoinColumn(name="comment_id")
+//    private List<CommentEntity> comments = new ArrayList<>();
 
     private String title;
     private String content;
@@ -39,5 +39,4 @@ public class PostEntity {
         this.boardEntity = boardEntity;
         boardEntity.updatePosts(this);
     }
-
 }

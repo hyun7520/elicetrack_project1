@@ -20,7 +20,7 @@ public class BoardEntity {
     @Column(name = "board_id")
     private Long id;
 
-    @OneToMany(mappedBy = "boardEntity", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "boardEntity", fetch = FetchType.LAZY, orphanRemoval = true)
     private List<PostEntity> posts = new ArrayList<>();
 
     private String topic;

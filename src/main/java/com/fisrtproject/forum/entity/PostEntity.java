@@ -10,6 +10,7 @@ import java.util.List;
 @Entity
 @Table(name = "post")
 @NoArgsConstructor
+@AllArgsConstructor
 @Getter
 public class PostEntity {
 

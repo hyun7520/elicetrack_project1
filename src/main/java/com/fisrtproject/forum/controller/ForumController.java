@@ -43,4 +43,11 @@ public class ForumController {
     public void deleteBoard(@PathVariable("boardId") Long id) {
         boardService.deleteBoard(id);
     }
+
+    @GetMapping("/{boardId}/{postId}")
+    public PostEntity getPostById(
+            @PathVariable("boardId") Long boardId,
+            @PathVariable("postId") Long postId) {
+        return postService.findPost(boardId, postId);
+    }
 }

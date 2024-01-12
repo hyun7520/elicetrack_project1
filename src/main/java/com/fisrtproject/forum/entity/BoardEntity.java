@@ -1,5 +1,7 @@
 package com.fisrtproject.forum.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fisrtproject.forum.service.PostService;
 import jakarta.persistence.*;
 import lombok.*;
@@ -13,6 +15,7 @@ import java.util.List;
 @AllArgsConstructor
 @Setter
 @Getter
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler", "posts"})
 public class BoardEntity {
 
     @Id
@@ -23,16 +26,16 @@ public class BoardEntity {
     @OneToMany(mappedBy = "boardEntity", fetch = FetchType.LAZY, orphanRemoval = true)
     private List<PostEntity> posts = new ArrayList<>();
 
+    @Column(name = "topic")
     private String topic;
 
     @Column(name="board_about")
     private String boardAbout;
 
     @Builder
-    public BoardEntity(String topic, String boardAbout, List<PostEntity> posts) {
+    public BoardEntity(String topic, String boardAbout) {
         this.topic = topic;
         this.boardAbout =boardAbout;
-        this.posts = posts;
     }
 
     // 연관관계 편의 메서드 작성

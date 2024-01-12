@@ -34,9 +34,10 @@ public class PostEntity {
     private String content;
     private Timestamp createdAt;
 
+    // 연관관계 편의 메서드 작성
     public void updateBoard(BoardEntity boardEntity) {
         this.boardEntity = boardEntity;
-        boardEntity.getPosts().add(this);
+        boardEntity.updatePosts(this);
     }
 
 }

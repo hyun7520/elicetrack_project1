@@ -34,7 +34,7 @@ public class ForumController {
         boardService.createBoard(boardCreateDto);
     }
 
-    @GetMapping("/{boardId}/update")
+    @PostMapping("/{boardId}/update")
     public void updateBoard(@PathVariable("boardId") Long id, @RequestBody BoardCreateDto boardCreateDto) {
         boardService.updateBoard(id, boardCreateDto);
     }

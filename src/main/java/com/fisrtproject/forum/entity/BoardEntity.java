@@ -35,17 +35,9 @@ public class BoardEntity {
         this.posts = posts;
     }
 
-    public static BoardEntity createBoard(String topic, String boardAbout, List<PostEntity> posts) {
-        return BoardEntity.builder()
-                .topic(topic)
-                .boardAbout(boardAbout)
-                .posts(posts)
-                .build();
-    }
-
-    public void updatePosts(final PostEntity postEntity) {
-        posts.add(postEntity);
+    // 연관관계 편의 메서드 작성
+    public void updatePosts(PostEntity postEntity) {
+        this.posts.add(postEntity);
         postEntity.updateBoard(this);
     }
-
 }

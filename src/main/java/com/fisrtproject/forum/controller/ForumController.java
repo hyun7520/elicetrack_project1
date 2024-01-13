@@ -83,4 +83,10 @@ public class ForumController {
                             @RequestBody PostPatchDto postPatchDto) {
         postService.updatePost(boardId, postId, postPatchDto);
     }
+
+    @DeleteMapping("/{boardId}/posts/{postId}/delete")
+    public void deletePost(@PathVariable("boardId") Long boardId,
+                           @PathVariable("postId") Long postId) {
+        postService.deletePost(boardId, postId);
+    }
 }

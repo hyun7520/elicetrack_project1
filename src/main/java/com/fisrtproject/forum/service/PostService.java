@@ -37,4 +37,9 @@ public class PostService {
         post.updatePost(postPatchDto.getTitle(), postPatchDto.getContent());
         postRepository.save(post);
     }
+
+    public void deletePost(Long boardId, Long postId) {
+        PostEntity savedPost = postRepository.findPostByBoardIdAndPostId(boardId, postId);
+        postRepository.delete(savedPost);
+    }
 }

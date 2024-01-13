@@ -1,6 +1,7 @@
 package com.fisrtproject.forum.controller;
 
 import com.fisrtproject.forum.dto.BoardCreateDto;
+import com.fisrtproject.forum.dto.PostPatchDto;
 import com.fisrtproject.forum.dto.PostRequestDto;
 import com.fisrtproject.forum.entity.BoardEntity;
 import com.fisrtproject.forum.entity.PostEntity;
@@ -74,5 +75,12 @@ public class ForumController {
 
         PostEntity newPost = postRepository.save(postRequestDto.toEntity());
         return newPost;
+    }
+
+    @PostMapping("/{boardId}/posts/{postId}/update")
+    public void updateBoard(@PathVariable("boardId") Long boardId,
+                            @PathVariable("postId") Long postId,
+                            @RequestBody PostPatchDto postPatchDto) {
+        postService.updatePost(boardId, postId, postPatchDto);
     }
 }

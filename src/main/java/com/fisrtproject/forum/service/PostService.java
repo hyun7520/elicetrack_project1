@@ -1,5 +1,6 @@
 package com.fisrtproject.forum.service;
 
+import com.fisrtproject.forum.dto.PostPatchDto;
 import com.fisrtproject.forum.entity.BoardEntity;
 import com.fisrtproject.forum.entity.PostEntity;
 import com.fisrtproject.forum.repository.JdbcTemplateBoardRepository;
@@ -29,5 +30,11 @@ public class PostService {
 
     public PostEntity findPost(Long boardId, Long postId) {
         return postRepository.findPostByBoardIdAndPostId(boardId, postId);
+    }
+
+    public void updatePost(Long boardId, Long postId, PostPatchDto postPatchDto) {
+        PostEntity post = postRepository.findPostByBoardIdAndPostId(boardId, postId);
+        post.updatePost(postPatchDto.getTitle(), postPatchDto.getContent());
+        postRepository.save(post);
     }
 }

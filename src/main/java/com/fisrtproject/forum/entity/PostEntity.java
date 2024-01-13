@@ -47,4 +47,9 @@ public class PostEntity {
         this.boardEntity = boardEntity;
         boardEntity.updatePosts(this);
     }
+
+    public void updatePost(String title, String content) {
+        this.title = title;
+        this.content = content;
+    }
 }

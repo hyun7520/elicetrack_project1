@@ -14,7 +14,10 @@ import java.util.Optional;
 @Repository
 public interface PostRepository extends JpaRepository<PostEntity, Long> {
 
+    Page<PostEntity> findByBoardEntity_id(Long id, Pageable pageable);
+
     @Query(nativeQuery = true,
             value = "SELECT * FROM post WHERE board_id = ?1 AND post_id = ?2")
     PostEntity findPostByBoardIdAndPostId(Long boardId, Long postId);
+
 }

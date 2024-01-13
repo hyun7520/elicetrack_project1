@@ -35,7 +35,7 @@ public class BoardEntity {
     @Builder
     public BoardEntity(String topic, String boardAbout) {
         this.topic = topic;
-        this.boardAbout =boardAbout;
+        this.boardAbout = boardAbout;
     }
 
     // 연관관계 편의 메서드 작성

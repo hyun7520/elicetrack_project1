@@ -1,6 +1,7 @@
 package com.fisrtproject.forum.controller;
 
 import com.fisrtproject.forum.dto.BoardCreateDto;
+import com.fisrtproject.forum.dto.PostRequestDto;
 import com.fisrtproject.forum.entity.BoardEntity;
 import com.fisrtproject.forum.entity.PostEntity;
 import com.fisrtproject.forum.repository.PostRepository;
@@ -9,8 +10,6 @@ import com.fisrtproject.forum.service.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -67,5 +66,13 @@ public class ForumController {
             @PathVariable("boardId") Long boardId,
             @PathVariable("postId") Long postId) {
         return postService.findPost(boardId, postId);
+    }
+
+    @PostMapping("/{boardId}/posts/create")
+    public PostEntity createPost(@PathVariable("boardId") Long boardId,
+                                 @RequestBody PostRequestDto postRequestDto) {
+
+        PostEntity newPost = postRepository.save(postRequestDto.toEntity());
+        return newPost;
     }
 }

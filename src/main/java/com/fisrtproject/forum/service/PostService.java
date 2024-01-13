@@ -19,6 +19,10 @@ public class PostService {
 
     private final PostRepository postRepository;
 
+    // 게시판 별로 게시글의 조회하는 메서드
+    // PostRepository의 메서드를 postService를 통해 조회하려고 하면 에러가 발생했다.
+    // 반면 같은 PostRepository의 메서드를 controller에서 바로 호출하는 경우는 에러가 없었다.
+    // 리마인더: 이유를 찾아볼 것.
 //    public Page<PostEntity> findAllPosts(Long id, Pageable pageable) {
 //        return PostRepository.findById(id, pageable);
 //    }

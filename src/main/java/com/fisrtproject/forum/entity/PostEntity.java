@@ -35,6 +35,13 @@ public class PostEntity {
     private String content;
     private Timestamp createdAt;
 
+    public PostEntity(BoardEntity boardEntity, String title, String content, Timestamp createdAt) {
+        this.boardEntity = boardEntity;
+        this.title = title;
+        this.content = content;
+        this.createdAt = createdAt;
+    }
+
     // 연관관계 편의 메서드 작성
     public void updateBoard(BoardEntity boardEntity) {
         this.boardEntity = boardEntity;

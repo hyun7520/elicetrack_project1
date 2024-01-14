@@ -36,7 +36,7 @@ public class JdbcTemplateBoardRepository {
 
     public Optional<BoardEntity> findById(Long id) {
         return jdbcTemplate
-                .query("SELECT * FROM post WHERE board_id = ?", boardMapper(), id)
+                .query("SELECT * FROM board WHERE board_id = ?", boardMapper(), id)
                 .stream()
                 .findFirst();
     }

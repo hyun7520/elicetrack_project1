@@ -1,5 +1,5 @@
 INSERT INTO
-	board (board_id, topic, board_about)
+	board (board_id, topic, board_description)
 VALUES
 	(1, "cats", "abouts cats"),
     (2, "back-end", "study backend"),

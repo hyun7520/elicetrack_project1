@@ -18,7 +18,7 @@ public class BoardService {
     public void createBoard(BoardCreateDto boardCreateDto) {
         BoardEntity board = BoardEntity.builder()
                 .topic(boardCreateDto.getTopic())
-                .boardAbout(boardCreateDto.getBoardAbout())
+                .boardDescription(boardCreateDto.getBoardDescription())
                 .build();
         boardRepository.save(board);
     }

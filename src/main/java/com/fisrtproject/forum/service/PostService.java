@@ -29,17 +29,17 @@ public class PostService {
 //    }
 
     public PostEntity findPost(Long boardId, Long postId) {
-        return postRepository.findPostByBoardIdAndPostId(boardId, postId);
+        return postRepository.findPostByBoardEntity_IdAndId(boardId, postId);
     }
 
     public void updatePost(Long boardId, Long postId, PostPatchDto postPatchDto) {
-        PostEntity post = postRepository.findPostByBoardIdAndPostId(boardId, postId);
+        PostEntity post = postRepository.findPostByBoardEntity_IdAndId(boardId, postId);
         post.updatePost(postPatchDto.getTitle(), postPatchDto.getContent());
         postRepository.save(post);
     }
 
     public void deletePost(Long boardId, Long postId) {
-        PostEntity savedPost = postRepository.findPostByBoardIdAndPostId(boardId, postId);
+        PostEntity savedPost = postRepository.findPostByBoardEntity_IdAndId(boardId, postId);
         postRepository.delete(savedPost);
     }
 }

@@ -1,8 +1,6 @@
 package com.fisrtproject.forum.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fisrtproject.forum.service.PostService;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -29,13 +27,13 @@ public class BoardEntity {
     @Column(name = "topic")
     private String topic;
 
-    @Column(name="board_about")
-    private String boardAbout;
+    @Column(name="board_description")
+    private String boardDescription;
 
     @Builder
-    public BoardEntity(String topic, String boardAbout) {
+    public BoardEntity(String topic, String boardDescription) {
         this.topic = topic;
-        this.boardAbout = boardAbout;
+        this.boardDescription = boardDescription;
     }
 
     // 연관관계 편의 메서드 작성

@@ -1,12 +1,12 @@
 package com.fisrtproject.forum.controller;
 
 import com.fisrtproject.forum.dto.BoardCreateDto;
+import com.fisrtproject.forum.dto.CommentRequestDto;
 import com.fisrtproject.forum.dto.PostPatchDto;
 import com.fisrtproject.forum.dto.PostRequestDto;
 import com.fisrtproject.forum.entity.BoardEntity;
 import com.fisrtproject.forum.entity.CommentEntity;
 import com.fisrtproject.forum.entity.PostEntity;
-import com.fisrtproject.forum.repository.PostRepository;
 import com.fisrtproject.forum.service.BoardService;
 import com.fisrtproject.forum.service.CommentService;
 import com.fisrtproject.forum.service.PostService;
@@ -72,8 +72,7 @@ public class ForumController {
     }
 
     @PostMapping("/{boardId}/posts/create")
-    public PostEntity createPost(@PathVariable("boardId") Long boardId,
-                                 @RequestBody PostRequestDto postRequestDto) {
+    public PostEntity createPost(@RequestBody PostRequestDto postRequestDto) {
 
         return postService.savePost(postRequestDto.toEntity());
 
@@ -93,10 +92,20 @@ public class ForumController {
     }
 
     // Comment Curd 메소드
+    @GetMapping("/{boardId}/posts/{postId}/comments")
+    public List<CommentEntity> getAllComments(@PathVariable("postId") Long postId) {
+        return commentService.findAllComments(postId);
+    }
+
     @GetMapping("/{boardId}/posts/{postId}/comments/{commentId}")
     public CommentEntity getComments(@PathVariable("postId") Long postId,
                                            @PathVariable("commentId") Long commentId) {
         return commentService.findCommentById(postId, commentId);
+    }
+
+    @PostMapping("/{boardId}/posts/{postId}/comments/create")
+    public CommentEntity createComment(@RequestBody CommentRequestDto commentRequestDto) {
+        return commentService.createComment(commentRequestDto.toEntity());
     }
 
 }

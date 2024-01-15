@@ -11,5 +11,4 @@ public class BoardCreateDto {
 
     private String topic;
     private String boardDescription;
-
 }

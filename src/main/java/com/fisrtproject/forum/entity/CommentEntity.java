@@ -27,7 +27,12 @@ public class CommentEntity {
     @JoinColumn(name = "post_id")
     private PostEntity postEntity;
 
-    private String Content;
+    private String content;
     private Timestamp createdAt;
 
+    public CommentEntity(PostEntity postEntity, String content, Timestamp createdAt) {
+        this.postEntity = postEntity;
+        this.content = content;
+        this.createdAt = createdAt;
+    }
 }

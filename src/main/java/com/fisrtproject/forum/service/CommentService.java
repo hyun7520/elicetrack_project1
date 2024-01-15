@@ -31,4 +31,9 @@ public class CommentService {
         comment.updateComment(commentPatchDto.getContent());
         commentRepository.save(comment);
     }
+
+    public void deleteComment(Long commentId){
+        CommentEntity comment = commentRepository.findCommentById(commentId);
+        commentRepository.delete(comment);
+    }
 }

@@ -111,4 +111,9 @@ public class ForumController {
         commentService.updateComment(commentId, commentPatchDto);
     }
 
+    @DeleteMapping("/{boardId}/posts/{postId}/comments/{commentId}/delete")
+    public void deleteComment(@PathVariable("commentId") Long commentId) {
+        commentService.deleteComment(commentId);
+    }
+
 }

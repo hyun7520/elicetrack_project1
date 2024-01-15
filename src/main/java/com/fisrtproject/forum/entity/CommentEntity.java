@@ -35,4 +35,8 @@ public class CommentEntity {
         this.content = content;
         this.createdAt = createdAt;
     }
+
+    public void updateComment(String content) {
+        this.content = content;
+    }
 }

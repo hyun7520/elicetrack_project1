@@ -1,5 +1,6 @@
 package com.fisrtproject.forum.service;
 
+import com.fisrtproject.forum.dto.CommentPatchDto;
 import com.fisrtproject.forum.entity.CommentEntity;
 import com.fisrtproject.forum.repository.CommentRepository;
 import lombok.RequiredArgsConstructor;
@@ -23,5 +24,11 @@ public class CommentService {
 
     public CommentEntity createComment(CommentEntity commentEntity) {
         return commentRepository.save(commentEntity);
+    }
+
+    public void updateComment(Long commentId, CommentPatchDto commentPatchDto) {
+        CommentEntity comment = commentRepository.findCommentById(commentId);
+        comment.updateComment(commentPatchDto.getContent());
+        commentRepository.save(comment);
     }
 }

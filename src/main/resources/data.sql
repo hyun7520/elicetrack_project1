@@ -11,3 +11,10 @@ VALUES
 (2, 1, 'first post', 'happy new year', NOW()),
 (3, 2, 'busy day coding', 'need coffee', NOW()),
 (4, 2, 'all done!', 'Hello, World!', NOW());
+
+INSERT INTO
+    comment (post_id, content, created_at)
+VALUES
+    (1, "test comment1", NOW()),
+    (1, "test comment2", NOW()),
+    (2, "test comment3", NOW())

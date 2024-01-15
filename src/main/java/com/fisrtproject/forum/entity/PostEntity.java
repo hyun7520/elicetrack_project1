@@ -1,5 +1,6 @@
 package com.fisrtproject.forum.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -12,6 +13,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler", "comments"})
 public class PostEntity {
 
     @Id
@@ -27,9 +29,8 @@ public class PostEntity {
 //    @JoinColumn(name="user_id")
 //    private UserEntity userEntity;
 
-//    @OneToMany
-//    @JoinColumn(name="comment_id")
-//    private List<CommentEntity> comments = new ArrayList<>();
+    @OneToMany(mappedBy = "postEntity")
+    private List<CommentEntity> comments = new ArrayList<>();
 
     private String title;
     private String content;

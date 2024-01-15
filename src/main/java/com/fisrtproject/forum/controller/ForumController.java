@@ -4,9 +4,11 @@ import com.fisrtproject.forum.dto.BoardCreateDto;
 import com.fisrtproject.forum.dto.PostPatchDto;
 import com.fisrtproject.forum.dto.PostRequestDto;
 import com.fisrtproject.forum.entity.BoardEntity;
+import com.fisrtproject.forum.entity.CommentEntity;
 import com.fisrtproject.forum.entity.PostEntity;
 import com.fisrtproject.forum.repository.PostRepository;
 import com.fisrtproject.forum.service.BoardService;
+import com.fisrtproject.forum.service.CommentService;
 import com.fisrtproject.forum.service.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -23,7 +25,7 @@ public class ForumController {
 
     private final BoardService boardService;
     private final PostService postService;
-    private final PostRepository postRepository;
+    private final CommentService commentService;
 
     // Board CRUD 메소드
     @GetMapping
@@ -60,8 +62,6 @@ public class ForumController {
         PageRequest pageRequest = PageRequest.of(page, size);
 
         return postService.findPostsByBoard(id, pageRequest);
-
-//        return postRepository.findByBoardEntity_id(id, pageRequest);
     }
 
     @GetMapping("/{boardId}/posts/{postId}")
@@ -75,8 +75,8 @@ public class ForumController {
     public PostEntity createPost(@PathVariable("boardId") Long boardId,
                                  @RequestBody PostRequestDto postRequestDto) {
 
-        PostEntity newPost = postRepository.save(postRequestDto.toEntity());
-        return newPost;
+        return postService.savePost(postRequestDto.toEntity());
+
     }
 
     @PostMapping("/{boardId}/posts/{postId}/update")
@@ -91,4 +91,12 @@ public class ForumController {
                            @PathVariable("postId") Long postId) {
         postService.deletePost(boardId, postId);
     }
+
+    // Comment Curd 메소드
+    @GetMapping("/{boardId}/posts/{postId}/comments/{commentId}")
+    public CommentEntity getComments(@PathVariable("postId") Long postId,
+                                           @PathVariable("commentId") Long commentId) {
+        return commentService.findCommentById(postId, commentId);
+    }
+
 }

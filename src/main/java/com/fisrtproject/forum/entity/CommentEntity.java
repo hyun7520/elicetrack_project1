@@ -22,10 +22,10 @@ public class CommentEntity {
 //    @ManyToOne
 //    @JoinColumn(name = "user_id")
 //    private UserEntity userEntity;
-//
-//    @ManyToOne
-//    @JoinColumn(name = "post_id")
-//    private PostEntity postEntity;
+
+    @ManyToOne
+    @JoinColumn(name = "post_id")
+    private PostEntity postEntity;
 
     private String Content;
     private Timestamp createdAt;

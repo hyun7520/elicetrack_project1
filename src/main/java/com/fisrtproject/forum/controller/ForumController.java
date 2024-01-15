@@ -59,7 +59,9 @@ public class ForumController {
                                         @RequestParam(name = "size", defaultValue = "5") int size) {
         PageRequest pageRequest = PageRequest.of(page, size);
 
-        return postRepository.findByBoardEntity_id(id, pageRequest);
+        return postService.findPostsByBoard(id, pageRequest);
+
+//        return postRepository.findByBoardEntity_id(id, pageRequest);
     }
 
     @GetMapping("/{boardId}/posts/{postId}")

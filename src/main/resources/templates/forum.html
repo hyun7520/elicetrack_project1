@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<meta charset="UTF-8" />
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>게시판</title>
+</head>
+
+<body>
+  <div class="banner">
+    <h1>게시판 목록</h1>
+  </div>
+  <div class="main">
+    <ul class="board-items">
+      <li th:each="board : ${boardPage}" >
+        <h2 th:text="${board.topic}"></h2>
+        <p th:text="${board.boardDescription}"></p>
+
+        <!-- 게시글 페이지 구현 -->
+        <a href="#" th:href="@{/forum/{boardId}(boardId=${board.id})}">
+          보러가기
+        </a>
+        <!-- 삭제 구현 -->
+        <form action="#" th:action="@{'/forum/{boardId}/delete'(boardId=${board.id})}" th:method="delete">
+          <button type="submit">
+            삭제
+          </button>
+        </form>
+      </li>
+    </ul>
+  </div>
+  <div>
+    <a th:href="@{/forum/createBoard}"><button>생성</button></a>
+  </div>
+</body>
+
+</html>

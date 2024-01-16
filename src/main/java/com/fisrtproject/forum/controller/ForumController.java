@@ -10,12 +10,14 @@ import com.fisrtproject.forum.service.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
 
-@RestController
+@Controller
 @RequiredArgsConstructor
 @RequestMapping("/forum")
 public class ForumController {
@@ -26,8 +28,10 @@ public class ForumController {
 
     // Board CRUD 메소드
     @GetMapping
-    public List<BoardEntity> getBoards() {
-        return boardService.getAllBoards();
+    public String getBoards(Model model) {
+        List<BoardEntity> boards = boardService.getAllBoards();
+        model.addAttribute("boardPage", boards);
+        return "forum";
     }
 
     @GetMapping("/{boardId}")
@@ -35,9 +39,18 @@ public class ForumController {
         return boardService.findBoard(id);
     }
 
+    @GetMapping("/createBoard")
+    public String toCreateBoardPage() {
+        return "createBoard";
+    }
+
     @PostMapping("/createBoard")
-    public void createNewBoard(@RequestBody BoardCreateDto boardCreateDto) {
+    //    Resolved [org.springframework.web.HttpMediaTypeNotSupportedException
+    //    검색 결과 @RequestBody를 삭제 하는 것으로 해결
+    //    json의 MultipartFile files로 인해 발생하는 오류아는데 아직 이해가 안된다...
+    public String createNewBoard(BoardCreateDto boardCreateDto) {
         boardService.createBoard(boardCreateDto);
+        return "redirect:/forum";
     }
 
     @PostMapping("/{boardId}/update")

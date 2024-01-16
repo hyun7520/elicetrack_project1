@@ -2,21 +2,15 @@ package com.fisrtproject.forum.controller;
 
 import com.fisrtproject.forum.dto.*;
 import com.fisrtproject.forum.entity.BoardEntity;
-import com.fisrtproject.forum.entity.CommentEntity;
-import com.fisrtproject.forum.entity.PostEntity;
+
 import com.fisrtproject.forum.service.BoardService;
-import com.fisrtproject.forum.service.CommentService;
-import com.fisrtproject.forum.service.PostService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.rmi.NoSuchObjectException;
 import java.util.List;
-import java.util.Optional;
 
 @Controller
 @RequiredArgsConstructor
@@ -24,10 +18,8 @@ import java.util.Optional;
 public class ForumController {
 
     private final BoardService boardService;
-    private final PostService postService;
-    private final CommentService commentService;
 
-    // Board CRUD 메소드
+    // 조회 메서드
     @GetMapping
     public String getBoards(Model model) {
         List<BoardEntity> boards = boardService.getAllBoards();
@@ -35,6 +27,7 @@ public class ForumController {
         return "forum";
     }
 
+    // 사용하지 않는 특정 게시판 찾기 메서드 삭제하기는 아까운데
     @GetMapping("/{boardId}")
     public BoardEntity getBoardById(@PathVariable("boardId") Long id) throws Exception {
 
@@ -43,10 +36,10 @@ public class ForumController {
         if(board == null) {
             throw new NoSuchObjectException("board was not found!");
         }
-
         return boardService.findBoard(id);
     }
 
+    // create 메서드
     @GetMapping("/createBoard")
     public String toCreateBoardPage() {
         return "createBoard";
@@ -61,6 +54,7 @@ public class ForumController {
         return "redirect:/forum";
     }
 
+    // update 메서드
     @GetMapping("/{boardId}/update")
     public String updateBoard(Model model,
                               @PathVariable("boardId") Long id) throws Exception {
@@ -69,7 +63,8 @@ public class ForumController {
 
         if(board == null) {
             throw new NoSuchObjectException("board was not found!");
-            //  return "redirect:/forum";
+            // throw 와 동시에 redirect? 방법 찾아보자
+            // return "redirect:/forum";
         } else {
             model.addAttribute("updateObject", board);
             return "updateBoard";
@@ -84,76 +79,10 @@ public class ForumController {
         return "redirect:/forum";
     }
 
+    // delete 메서드
     @DeleteMapping("/{boardId}/delete")
     public String deleteBoard(@PathVariable("boardId") Long id) {
         boardService.deleteBoard(id);
         return "redirect:/forum";
     }
-
-
-    // Post CRUD 메소드
-    @GetMapping("/{boardId}/posts")
-    public Page<PostEntity> getAllPosts(@PathVariable("boardId") Long id,
-                                        @RequestParam(name = "page", defaultValue = "0") int page,
-                                        @RequestParam(name = "size", defaultValue = "5") int size) {
-        PageRequest pageRequest = PageRequest.of(page, size);
-
-        return postService.findPostsByBoard(id, pageRequest);
-    }
-
-    @GetMapping("/{boardId}/posts/{postId}")
-    public PostEntity getPostById(
-            @PathVariable("boardId") Long boardId,
-            @PathVariable("postId") Long postId) {
-        return postService.findPost(boardId, postId);
-    }
-
-    @PostMapping("/{boardId}/posts/create")
-    public PostEntity createPost(@RequestBody PostRequestDto postRequestDto) {
-
-        return postService.savePost(postRequestDto.toEntity());
-
-    }
-
-    @PostMapping("/{boardId}/posts/{postId}/update")
-    public void updateBoard(@PathVariable("boardId") Long boardId,
-                            @PathVariable("postId") Long postId,
-                            @RequestBody PostPatchDto postPatchDto) {
-        postService.updatePost(boardId, postId, postPatchDto);
-    }
-
-    @DeleteMapping("/{boardId}/posts/{postId}/delete")
-    public void deletePost(@PathVariable("boardId") Long boardId,
-                           @PathVariable("postId") Long postId) {
-        postService.deletePost(boardId, postId);
-    }
-
-    // Comment CRUD 메소드
-    @GetMapping("/{boardId}/posts/{postId}/comments")
-    public List<CommentEntity> getAllComments(@PathVariable("postId") Long postId) {
-        return commentService.findAllComments(postId);
-    }
-
-    @GetMapping("/{boardId}/posts/{postId}/comments/{commentId}")
-    public CommentEntity getComments(@PathVariable("postId") Long postId,
-                                           @PathVariable("commentId") Long commentId) {
-        return commentService.findCommentById(postId, commentId);
-    }
-
-    @PostMapping("/{boardId}/posts/{postId}/comments/create")
-    public CommentEntity createComment(@RequestBody CommentRequestDto commentRequestDto) {
-        return commentService.createComment(commentRequestDto.toEntity());
-    }
-
-    @PostMapping("/{boardId}/posts/{postId}/comments/{commentId}/update")
-    public void updateComment(@PathVariable("commentId") Long commentId,
-                              @RequestBody CommentPatchDto commentPatchDto) {
-        commentService.updateComment(commentId, commentPatchDto);
-    }
-
-    @DeleteMapping("/{boardId}/posts/{postId}/comments/{commentId}/delete")
-    public void deleteComment(@PathVariable("commentId") Long commentId) {
-        commentService.deleteComment(commentId);
-    }
-
 }

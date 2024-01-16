@@ -14,10 +14,12 @@ import java.util.Optional;
 public class JdbcTemplateBoardRepository {
 
     private final JdbcTemplate jdbcTemplate;
+    private final PostRepository postRepository;
 
     @Autowired
-    public JdbcTemplateBoardRepository(JdbcTemplate jdbcTemplate) {
+    public JdbcTemplateBoardRepository(JdbcTemplate jdbcTemplate, PostRepository postRepository) {
         this.jdbcTemplate = jdbcTemplate;
+        this.postRepository = postRepository;
     }
 
     private final RowMapper<BoardEntity> boardMapper() {
@@ -52,7 +54,13 @@ public class JdbcTemplateBoardRepository {
     }
 
     public void deleteBoard(Long id) {
-        String sql = "DELETE FROM post WHERE board_id = ?";
+        String sql = "DELETE FROM \n" +
+                "\tcomment \n" +
+                "WHERE \n" +
+                "\tpost_id IN \n" +
+                "\t\t(SELECT DISTINCT post_id FROM post WHERE board_id = ?);";
+        jdbcTemplate.update(sql, id);
+        sql = "DELETE FROM post WHERE board_id = ?";
         jdbcTemplate.update(sql, id);
         sql = "DELETE FROM board WHERE board_id = ?";
         jdbcTemplate.update(sql, id);

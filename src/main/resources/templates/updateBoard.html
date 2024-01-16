@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<meta charset="UTF-8" />
+
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div>
+    <h2>게시판 생성</h2>
+    <form th:action="@{'/forum/{boardId}/update'(boardId=${updateObject.id})}" th:method="PUT">
+        <div>
+            <input type="text" name="topic" placeholder="${updateObject.topic}" required>
+        </div>
+        <div>
+            <input type="text" name="boardDescription" placeholder="updateObject.boardDescription" required>
+        </div>
+        <button type="submit">게시판 수정!</button>
+        <button type="button" onclick="window.history.back();">취소하기</button>
+    </form>
+</div>
+
+</body>
+</html>

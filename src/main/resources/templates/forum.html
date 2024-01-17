@@ -19,7 +19,7 @@
         <p th:text="${board.boardDescription}"></p>
 
         <!-- 게시글 페이지 구현 -->
-        <a href="#" th:href="@{/forum/{boardId}(boardId=${board.id})}">
+        <a href="#" th:href="@{/forum/{boardId}/posts(boardId=${board.id})}">
           보러가기
         </a>
         <!-- 삭제 구현 -->

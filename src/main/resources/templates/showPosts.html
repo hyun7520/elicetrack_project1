@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<meta charset="UTF-8"/>
+
+<head>
+    <meta charset="UTF-8">
+    <title>게시글 보기</title>
+</head>
+<body>
+
+    <div class="header">
+        <h1 th:text="|${board.topic} 게시판입니다!|"></h1>
+    </div>
+
+    <div class="body">
+        <tr th:each="post: ${posts.content}">
+            <td>
+                <a th:href="@{/forum/{boardId}/posts/{postId}
+                (boardId=post.boardEntity.id, postId=post.id)}"
+                   th:text="${post.title}">
+                </a>
+            </td>
+            <td>
+                <span th:text="${post.createdAt}"></span>
+            </td>
+            <td>
+                <form action="#" th:action="@{'/forum/{boardId}/posts/{postId}/delete'
+                (boardId=${post.boardEntity.id}, postId=${post.id})}" th:method="delete">
+                    <input type="hidden" name="_method" value="delete">
+                    <button type="submit">
+                        삭제
+                    </button>
+                </form>
+            </td>
+        </tr>
+    </div>
+
+    <div>
+        <a th:href="@{/forum/createBoard}"><button>생성</button></a>
+    </div>
+
+</body>
+</html>

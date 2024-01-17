@@ -14,12 +14,10 @@ import java.util.Optional;
 public class JdbcTemplateBoardRepository {
 
     private final JdbcTemplate jdbcTemplate;
-    private final PostRepository postRepository;
 
     @Autowired
-    public JdbcTemplateBoardRepository(JdbcTemplate jdbcTemplate, PostRepository postRepository) {
+    public JdbcTemplateBoardRepository(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
-        this.postRepository = postRepository;
     }
 
     private final RowMapper<BoardEntity> boardMapper() {

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="UTF-8">
+  <title>게시글 생성</title>
+</head>
+<body>
+    <div>
+        <h2>게시글 생성</h2>
+        <form th:action="@{/forum/posts/create}" th:object="${dto}" method="post">
+            <div>
+                <input type="number" th:field="*{boardId}" required>
+            </div>
+            <div>
+                <input type="text" th:field="*{title}" placeholder="게시글 제목 입력" required>
+            </div>
+            <div>
+                <input type="text" th:field="*{content}" placeholder="내용" required>
+            </div>
+            <div>
+                <input type="date" th:field="*{createdAt}" required>
+            </div>
+            <button type="submit">게시글 생성!</button>
+            <button type="button" onclick="window.history.back();">취소하기</button>
+        </form>
+    </div>
+</body>
+</html>

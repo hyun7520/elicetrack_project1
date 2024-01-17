@@ -44,11 +44,19 @@ public class PostController {
         return postService.findPost(boardId, postId);
     }
 
-    @PostMapping("/{boardId}/posts/create")
-    public PostEntity createPost(@RequestBody PostRequestDto postRequestDto) {
+    @GetMapping("/{boardId}/posts/create")
+    public String toCreatePostPage(Model model) {
+        PostRequestDto postRequestDto = new PostRequestDto();
+        model.addAttribute("dto", postRequestDto);
+        return "createPost";
+    }
 
-        return postService.savePost(postRequestDto.toEntity());
-
+    @PostMapping("/posts/create")
+    public String createPost(@ModelAttribute("dto") PostRequestDto postRequestDto) {
+        BoardEntity board = boardService.findBoard(postRequestDto.getBoardId());
+        postRequestDto.setBoardEntity(board);
+        postService.savePost(postRequestDto.toEntity());
+        return "redirect:/forum";
     }
 
     @PostMapping("/{boardId}/posts/{postId}/update")
@@ -57,8 +65,7 @@ public class PostController {
                             @RequestBody PostPatchDto postPatchDto) {
         postService.updatePost(boardId, postId, postPatchDto);
     }
-    
-    // redirect 질문하기
+
     @DeleteMapping("/{boardId}/posts/{postId}/delete")
     public String deletePost(Model model,
                              @PathVariable("boardId") Long boardId,

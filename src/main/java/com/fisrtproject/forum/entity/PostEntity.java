@@ -3,9 +3,11 @@ package com.fisrtproject.forum.entity;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -34,9 +36,11 @@ public class PostEntity {
 
     private String title;
     private String content;
-    private Timestamp createdAt;
 
-    public PostEntity(BoardEntity boardEntity, String title, String content, Timestamp createdAt) {
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private String createdAt;
+
+    public PostEntity(BoardEntity boardEntity, String title, String content, String createdAt) {
         this.boardEntity = boardEntity;
         this.title = title;
         this.content = content;

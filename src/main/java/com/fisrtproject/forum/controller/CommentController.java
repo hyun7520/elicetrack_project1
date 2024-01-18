@@ -55,14 +55,27 @@ public class CommentController {
         return "redirect:/forum";
     }
 
-    @PostMapping("/{boardId}/posts/{postId}/comments/{commentId}/update")
-    public void updateComment(@PathVariable("commentId") Long commentId,
-                              @RequestBody CommentPatchDto commentPatchDto) {
-        commentService.updateComment(commentId, commentPatchDto);
+    @GetMapping("/{postId}/comments/{commentId}/update")
+    public String toUpdateCommentPage(Model model,
+                                      @PathVariable("postId") Long postId,
+                                      @PathVariable("commentId") Long commentId) {
+        CommentPatchDto commentPatchDto = new CommentPatchDto();
+        CommentEntity commentEntity = commentService.findCommentById(postId, commentId);
+        model.addAttribute("comment", commentEntity);
+        model.addAttribute("dto", commentPatchDto);
+        return "updateComment";
     }
 
-    @DeleteMapping("/{boardId}/posts/{postId}/comments/{commentId}/delete")
-    public void deleteComment(@PathVariable("commentId") Long commentId) {
+    @PutMapping("/{postId}/comments/{commentId}/update")
+    public String updateComment(@PathVariable("commentId") Long commentId,
+                              CommentPatchDto commentPatchDto) {
+        commentService.updateComment(commentId, commentPatchDto);
+        return "redirect:/forum";
+    }
+
+    @DeleteMapping("/comments/{commentId}/delete")
+    public String deleteComment(@PathVariable("commentId") Long commentId) {
         commentService.deleteComment(commentId);
+        return "redirect:/forum";
     }
 }

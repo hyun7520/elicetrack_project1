@@ -27,14 +27,14 @@
                         삭제
                     </button>
                 </form>
-                <a th:href="@{'/{postId}/comments/{commentsId}/update'(postId=${postInfo.id} ,commentId=${comment.id})}"><button>수정</button></a>
+                <a th:href="@{'/forum/{postId}/comments/{commentId}/update'(postId=${postInfo.id}, commentId=${comment.id})}"><button>수정</button></a>
             </li>
         </ul>
     </div>
 
     <div>
         <a th:href="@{'/forum/{postId}/comments/create'(postId=${postInfo.id})}">
-            <button>생성</button>
+            <button>댓글 쓰기</button>
         </a>
     </div>
 

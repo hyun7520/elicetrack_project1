@@ -24,6 +24,10 @@ public class PostService {
         return postRepository.findByBoardEntity_id(id, pageable);
     }
 
+    public PostEntity findPostById(Long id) {
+        return postRepository.findPostById(id);
+    }
+
     public PostEntity findPost(Long boardId, Long postId) {
         return postRepository.findPostByBoardEntity_IdAndId(boardId, postId);
     }

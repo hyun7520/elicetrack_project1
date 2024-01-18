@@ -3,8 +3,10 @@ package com.fisrtproject.forum.controller;
 import com.fisrtproject.forum.dto.PostPatchDto;
 import com.fisrtproject.forum.dto.PostRequestDto;
 import com.fisrtproject.forum.entity.BoardEntity;
+import com.fisrtproject.forum.entity.CommentEntity;
 import com.fisrtproject.forum.entity.PostEntity;
 import com.fisrtproject.forum.service.BoardService;
+import com.fisrtproject.forum.service.CommentService;
 import com.fisrtproject.forum.service.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -25,6 +27,7 @@ public class PostController {
 
     private final PostService postService;
     private final BoardService boardService;
+    private final CommentService commentService;
 
     @GetMapping("/{boardId}/posts")
     public String getAllPosts(Model model,
@@ -41,10 +44,16 @@ public class PostController {
     }
 
     @GetMapping("/{boardId}/posts/{postId}")
-    public PostEntity getPostById(
-            @PathVariable("boardId") Long boardId,
-            @PathVariable("postId") Long postId) {
-        return postService.findPost(boardId, postId);
+    public String getPostById( Model model,
+                               @PathVariable("boardId") Long boardId,
+                               @PathVariable("postId") Long postId) {
+        PostEntity foundPost = postService.findPost(boardId, postId);
+        List<CommentEntity> comments = commentService.findAllComments(postId);
+
+        model.addAttribute("postInfo", foundPost);
+        model.addAttribute("comments", comments);
+
+        return "showPost";
     }
 
     @GetMapping("/{boardId}/posts/create")

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+    <div>
+        <div class="header">
+            <h1 th:text="|${postInfo.title}|"></h1>
+        </div>
+        <div>
+            <span th:text="|${postInfo.content}|"></span>
+        </div>
+    </div>
+
+    <div>
+        <ul>
+            <li th:each="comment : ${comments}">
+                <span th:text="${comment.content}"></span>
+                <span th:text="${comment.createdAt}"></span>
+                <form action="#" th:action="@{'/forum/comments/{commentId}/delete'(commentId=${comment.id})}" th:method="delete">
+                    <input type="hidden" name="_method" value="delete">
+                    <button type="submit">
+                        삭제
+                    </button>
+                </form>
+                <a th:href="@{'/{postId}/comments/{commentsId}/update'(postId=${postInfo.id} ,commentId=${comment.id})}"><button>수정</button></a>
+            </li>
+        </ul>
+    </div>
+
+    <div>
+        <a th:href="@{'/forum/{postId}/comments/create'(postId=${postInfo.id})}">
+            <button>생성</button>
+        </a>
+    </div>
+
+</body>
+</html>

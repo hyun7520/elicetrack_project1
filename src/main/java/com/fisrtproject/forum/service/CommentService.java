@@ -4,8 +4,10 @@ import com.fisrtproject.forum.dto.CommentPatchDto;
 import com.fisrtproject.forum.entity.CommentEntity;
 import com.fisrtproject.forum.repository.CommentRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
+import java.awt.print.Pageable;
 import java.util.List;
 
 @RequiredArgsConstructor

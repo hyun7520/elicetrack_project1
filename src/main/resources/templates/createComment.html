@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <div>
+        <form th:action="@{'/forum/{postId}/comments/create' (postId=${postId})}"
+              th:object="${dto}"
+              method="post">
+            <div>
+                <input type="text" th:field="*{content}" placeholder="댓글 입력" required>
+            </div>
+            <div>
+                <input type="date" th:field="*{createdAt}" required>
+            </div>
+            <button type="submit">게시글 생성!</button>
+            <button type="button" onclick="window.history.back();">취소하기</button>
+        </form>
+    </div>
+
+</body>
+</html>

@@ -23,10 +23,8 @@
         <tbody>
         <tr th:each="post: ${posts.content}">
             <td>
-                <a th:href="@{/forum/{boardId}/posts/{postId}
-        (boardId=post.boardEntity.id, postId=post.id)}"
-                   th:text="${post.title}">
-                </a>
+                <a th:href="@{/forum/{boardId}/posts/{postId} (boardId=${post.boardEntity.id}, postId=${post.id})}"
+                   th:text="${post.title}"></a>
             </td>
             <td>
                 <span th:text="${post.createdAt}"></span>

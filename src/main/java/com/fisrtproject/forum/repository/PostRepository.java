@@ -9,6 +9,8 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface PostRepository extends JpaRepository<PostEntity, Long> {
 
+    PostEntity findPostById(Long id);
+
     Page<PostEntity> findByBoardEntity_id(Long id, Pageable pageable);
 
     PostEntity findPostByBoardEntity_IdAndId(Long boardId, Long postId);

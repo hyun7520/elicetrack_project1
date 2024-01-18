@@ -25,7 +25,7 @@ public class JdbcTemplateBoardRepository {
             BoardEntity board = new BoardEntity();
             board.setId(rs.getLong("board_id"));
             board.setTopic(rs.getString("topic"));
-            board.setBoardAbout(rs.getString("board_about"));
+            board.setBoardDescription(rs.getString("board_description"));
             return board;
         };
     }
@@ -42,17 +42,23 @@ public class JdbcTemplateBoardRepository {
     }
 
     public void save(BoardEntity board) {
-        String sql = "INSERT INTO board(topic, board_about) VALUES (?, ?)";
-        jdbcTemplate.update(sql, board.getTopic(), board.getBoardAbout());
+        String sql = "INSERT INTO board(topic, board_description) VALUES (?, ?)";
+        jdbcTemplate.update(sql, board.getTopic(), board.getBoardDescription());
     }
 
     public void updateBoard(Long id, BoardCreateDto boardCreateDto) {
-        String sql = "UPDATE board SET topic = ?, board_about = ? WHERE board_id = ?";
-        jdbcTemplate.update(sql, boardCreateDto.getTopic(), boardCreateDto.getBoardAbout(), id);
+        String sql = "UPDATE board SET topic = ?, board_description = ? WHERE board_id = ?";
+        jdbcTemplate.update(sql, boardCreateDto.getTopic(), boardCreateDto.getBoardDescription(), id);
     }
 
     public void deleteBoard(Long id) {
-        String sql = "DELETE FROM post WHERE board_id = ?";
+        String sql = "DELETE FROM \n" +
+                "\tcomment \n" +
+                "WHERE \n" +
+                "\tpost_id IN \n" +
+                "\t\t(SELECT DISTINCT post_id FROM post WHERE board_id = ?);";
+        jdbcTemplate.update(sql, id);
+        sql = "DELETE FROM post WHERE board_id = ?";
         jdbcTemplate.update(sql, id);
         sql = "DELETE FROM board WHERE board_id = ?";
         jdbcTemplate.update(sql, id);

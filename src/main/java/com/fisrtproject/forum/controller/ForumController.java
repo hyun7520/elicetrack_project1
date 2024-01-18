@@ -1,92 +1,88 @@
 package com.fisrtproject.forum.controller;
 
-import com.fisrtproject.forum.dto.BoardCreateDto;
-import com.fisrtproject.forum.dto.PostPatchDto;
-import com.fisrtproject.forum.dto.PostRequestDto;
+import com.fisrtproject.forum.dto.*;
 import com.fisrtproject.forum.entity.BoardEntity;
-import com.fisrtproject.forum.entity.PostEntity;
-import com.fisrtproject.forum.repository.PostRepository;
+
 import com.fisrtproject.forum.service.BoardService;
-import com.fisrtproject.forum.service.PostService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.rmi.NoSuchObjectException;
 import java.util.List;
-import java.util.Optional;
 
-@RestController
+@Controller
 @RequiredArgsConstructor
 @RequestMapping("/forum")
 public class ForumController {
 
     private final BoardService boardService;
-    private final PostService postService;
-    private final PostRepository postRepository;
 
-    // Board CRUD 메소드
+    // 조회 메서드
     @GetMapping
-    public List<BoardEntity> getBoards() {
-        return boardService.getAllBoards();
+    public String getBoards(Model model) {
+        List<BoardEntity> boards = boardService.getAllBoards();
+        model.addAttribute("boardPage", boards);
+        return "forum";
     }
 
+    // 사용하지 않는 특정 게시판 찾기 메서드 삭제하기는 아까운데
     @GetMapping("/{boardId}")
-    public Optional<BoardEntity> getBoardById(@PathVariable("boardId") Long id) {
+    public BoardEntity getBoardById(@PathVariable("boardId") Long id) throws Exception {
+
+        BoardEntity board = boardService.findBoard(id);
+
+        if(board == null) {
+            throw new NoSuchObjectException("board was not found!");
+        }
         return boardService.findBoard(id);
     }
 
+    // create 메서드
+    @GetMapping("/createBoard")
+    public String toCreateBoardPage() {
+        return "createBoard";
+    }
+
     @PostMapping("/createBoard")
-    public void createNewBoard(@RequestBody BoardCreateDto boardCreateDto) {
+    //    Resolved [org.springframework.web.HttpMediaTypeNotSupportedException
+    //    검색 결과 @RequestBody를 삭제 하는 것으로 해결
+    //    json의 MultipartFile files로 인해 발생하는 오류아는데 아직 이해가 안된다...
+    public String createNewBoard(BoardCreateDto boardCreateDto) {
         boardService.createBoard(boardCreateDto);
+        return "redirect:/forum";
     }
 
-    @PostMapping("/{boardId}/update")
-    public void updateBoard(@PathVariable("boardId") Long id, @RequestBody BoardCreateDto boardCreateDto) {
+    // update 메서드
+    @GetMapping("/{boardId}/update")
+    public String updateBoard(Model model,
+                              @PathVariable("boardId") Long id) throws Exception {
+
+        BoardEntity board = boardService.findBoard(id);
+
+        if(board == null) {
+            throw new NoSuchObjectException("board was not found!");
+            // throw 와 동시에 redirect? 방법 찾아보자
+            // return "redirect:/forum";
+        } else {
+            model.addAttribute("updateObject", board);
+            return "updateBoard";
+        }
+    }
+
+    // 멱등성을 위해 postmapping 에서 putmapping으로 수정
+    @PutMapping("/{boardId}/update")
+    public String updateBoard(@PathVariable("boardId") Long id,
+                              BoardCreateDto boardCreateDto) {
         boardService.updateBoard(id, boardCreateDto);
+        return "redirect:/forum";
     }
 
+    // delete 메서드
     @DeleteMapping("/{boardId}/delete")
-    public void deleteBoard(@PathVariable("boardId") Long id) {
+    public String deleteBoard(@PathVariable("boardId") Long id) {
         boardService.deleteBoard(id);
-    }
-
-
-    // Post CRUD 메소드
-    @GetMapping("/{boardId}/posts")
-    public Page<PostEntity> getAllPosts(@PathVariable("boardId") Long id,
-                                        @RequestParam(name = "page", defaultValue = "0") int page,
-                                        @RequestParam(name = "size", defaultValue = "5") int size) {
-        PageRequest pageRequest = PageRequest.of(page, size);
-
-        return postRepository.findByBoardEntity_id(id, pageRequest);
-    }
-
-    @GetMapping("/{boardId}/posts/{postId}")
-    public PostEntity getPostById(
-            @PathVariable("boardId") Long boardId,
-            @PathVariable("postId") Long postId) {
-        return postService.findPost(boardId, postId);
-    }
-
-    @PostMapping("/{boardId}/posts/create")
-    public PostEntity createPost(@PathVariable("boardId") Long boardId,
-                                 @RequestBody PostRequestDto postRequestDto) {
-
-        PostEntity newPost = postRepository.save(postRequestDto.toEntity());
-        return newPost;
-    }
-
-    @PostMapping("/{boardId}/posts/{postId}/update")
-    public void updateBoard(@PathVariable("boardId") Long boardId,
-                            @PathVariable("postId") Long postId,
-                            @RequestBody PostPatchDto postPatchDto) {
-        postService.updatePost(boardId, postId, postPatchDto);
-    }
-
-    @DeleteMapping("/{boardId}/posts/{postId}/delete")
-    public void deletePost(@PathVariable("boardId") Long boardId,
-                           @PathVariable("postId") Long postId) {
-        postService.deletePost(boardId, postId);
+        return "redirect:/forum";
     }
 }

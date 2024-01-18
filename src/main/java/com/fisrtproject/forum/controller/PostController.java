@@ -15,6 +15,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
+import java.rmi.NoSuchObjectException;
+import java.util.List;
+
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/forum")
@@ -46,42 +49,56 @@ public class PostController {
 
     @GetMapping("/{boardId}/posts/create")
     public String toCreatePostPage(Model model) {
+        List<BoardEntity> boardList = boardService.getAllBoards();
         PostRequestDto postRequestDto = new PostRequestDto();
         model.addAttribute("dto", postRequestDto);
+        model.addAttribute("boardList", boardList);
         return "createPost";
     }
 
     @PostMapping("/posts/create")
     public String createPost(@ModelAttribute("dto") PostRequestDto postRequestDto) {
-        BoardEntity board = boardService.findBoard(postRequestDto.getBoardId());
+        Long boardId = postRequestDto.getBoardId();
+        BoardEntity board = boardService.findBoard(boardId);
         postRequestDto.setBoardEntity(board);
         postService.savePost(postRequestDto.toEntity());
         return "redirect:/forum";
     }
 
-    @PostMapping("/{boardId}/posts/{postId}/update")
-    public void updateBoard(@PathVariable("boardId") Long boardId,
+    @GetMapping("{boardId}/posts/{postId}/update")
+    public String toUpdatePostPage(Model model,
+                                 @PathVariable("boardId") Long boardId,
+                                 @PathVariable("postId") Long postId) {
+
+        PostEntity post = postService.findPost(boardId, postId);
+        PostPatchDto postPatchDto = new PostPatchDto();
+
+        if(post == null) {
+            return null;
+            // throw 와 동시에 redirect? 방법 찾아보자
+            // return "redirect:/forum";
+        } else {
+            model.addAttribute("dto", postPatchDto);
+            model.addAttribute("updateObject", post);
+            return "updatePost";
+        }
+    }
+
+    @PutMapping("/{boardId}/posts/{postId}/update")
+    public String updatePost(@PathVariable("boardId") Long boardId,
                             @PathVariable("postId") Long postId,
-                            @RequestBody PostPatchDto postPatchDto) {
+                            @ModelAttribute("dto") PostPatchDto postPatchDto) {
         postService.updatePost(boardId, postId, postPatchDto);
+        return "redirect:/forum";
     }
 
     @DeleteMapping("/{boardId}/posts/{postId}/delete")
     public String deletePost(Model model,
                              @PathVariable("boardId") Long boardId,
-                             @PathVariable("postId") Long postId,
-                             @RequestParam(name = "page", defaultValue = "0") int page,
-                             @RequestParam(name = "size", defaultValue = "5") int size) {
+                             @PathVariable("postId") Long postId) {
 
         postService.deletePost(boardId, postId);
 
-        PageRequest pageRequest = PageRequest.of(page, size);
-        Page<PostEntity> foundPosts = postService.findPostsByBoard(boardId, pageRequest);
-        BoardEntity selectedBoard = boardService.findBoard(postId);
-
-        model.addAttribute("posts", foundPosts);
-        model.addAttribute("board", selectedBoard);
-
-        return "showPosts";
+        return "redirect:/forum";
     }
 }

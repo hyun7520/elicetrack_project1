@@ -8,7 +8,7 @@
 </head>
 <body>
 <div>
-    <h2>게시판 생성</h2>
+    <h2>게시판 수정</h2>
     <form th:action="@{'/forum/{boardId}/update'(boardId=${updateObject.id})}" th:method="PUT">
         <div>
             <input type="text" name="topic" placeholder="${updateObject.topic}" required>

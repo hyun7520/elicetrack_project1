@@ -42,6 +42,8 @@ public class BoardService {
         return board;
     }
 
+
+
     public void updateBoard(Long id, BoardCreateDto boardCreateDto) {
         boardRepository.updateBoard(id, boardCreateDto);
     }

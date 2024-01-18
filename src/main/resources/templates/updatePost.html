@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>게시글 수정</title>
+</head>
+<body>
+<h2>게시글 수정</h2>
+<form th:action="@{'/forum/{boardId}/posts/{postId}/update' (boardId=${updateObject.boardEntity.id}, postId=${updateObject.id})}"
+      th:object="${dto}"
+      th:method="PUT">
+  <div>
+    <input type="text" th:field="*{title}" name="title" placeholder="${updateObject.title}" required>
+  </div>
+  <div>
+    <input type="text" th:field="*{content}" name="content" placeholder="${updateObject.content}" required>
+  </div>
+  <button type="submit">게시판 수정!</button>
+  <button type="button" onclick="window.history.back();">취소하기</button>
+</form>
+
+</body>
+</html>

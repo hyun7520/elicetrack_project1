@@ -10,7 +10,14 @@
         <h2>게시글 생성</h2>
         <form th:action="@{/forum/posts/create}" th:object="${dto}" method="post">
             <div>
-                <input type="number" th:field="*{boardId}" required>
+                <select th:field="*{boardId}">
+                    <option
+                            th:each="board: ${boardList}"
+                            th:value="${board.id}"
+                            th:text="${board.topic}">
+                    </option>
+                </select>
+<!--                <input type="number" th:field="*{boardId}" required>-->
             </div>
             <div>
                 <input type="text" th:field="*{title}" placeholder="게시글 제목 입력" required>

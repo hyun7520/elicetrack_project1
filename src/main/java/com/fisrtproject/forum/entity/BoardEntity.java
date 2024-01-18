@@ -24,7 +24,7 @@ public class BoardEntity {
     @OneToMany(mappedBy = "boardEntity", fetch = FetchType.LAZY, orphanRemoval = true)
     private List<PostEntity> posts = new ArrayList<>();
 
-    @Column(name = "topic")
+    @Column(name = "topic", unique = true)
     private String topic;
 
     @Column(name="board_description")

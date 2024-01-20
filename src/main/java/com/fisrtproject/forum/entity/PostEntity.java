@@ -1,10 +1,13 @@
 package com.fisrtproject.forum.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -12,6 +15,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler", "comments"})
 public class PostEntity {
 
     @Id
@@ -27,15 +31,16 @@ public class PostEntity {
 //    @JoinColumn(name="user_id")
 //    private UserEntity userEntity;
 
-//    @OneToMany
-//    @JoinColumn(name="comment_id")
-//    private List<CommentEntity> comments = new ArrayList<>();
+    @OneToMany(mappedBy = "postEntity")
+    private List<CommentEntity> comments = new ArrayList<>();
 
     private String title;
     private String content;
-    private Timestamp createdAt;
 
-    public PostEntity(BoardEntity boardEntity, String title, String content, Timestamp createdAt) {
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private String createdAt;
+
+    public PostEntity(BoardEntity boardEntity, String title, String content, String createdAt) {
         this.boardEntity = boardEntity;
         this.title = title;
         this.content = content;

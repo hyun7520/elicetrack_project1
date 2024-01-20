@@ -10,6 +10,5 @@ import lombok.*;
 public class BoardCreateDto {
 
     private String topic;
-    private String boardAbout;
-
+    private String boardDescription;
 }

@@ -4,6 +4,7 @@ import com.fisrtproject.forum.dto.BoardCreateDto;
 import com.fisrtproject.forum.entity.BoardEntity;
 import com.fisrtproject.forum.repository.JdbcTemplateBoardRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,7 +19,7 @@ public class BoardService {
     public void createBoard(BoardCreateDto boardCreateDto) {
         BoardEntity board = BoardEntity.builder()
                 .topic(boardCreateDto.getTopic())
-                .boardAbout(boardCreateDto.getBoardAbout())
+                .boardDescription(boardCreateDto.getBoardDescription())
                 .build();
         boardRepository.save(board);
     }
@@ -27,9 +28,21 @@ public class BoardService {
         return boardRepository.findAll();
     }
 
-    public Optional<BoardEntity> findBoard(Long id) {
-        return boardRepository.findById(id);
+    public BoardEntity findBoard(Long id) {
+
+        BoardEntity board = null;
+
+        Optional<BoardEntity> foundBoard = boardRepository.findById(id);
+
+        if (foundBoard.isPresent()) {
+            board = foundBoard.get();
+        } else {
+            return null;
+        }
+        return board;
     }
+
+
 
     public void updateBoard(Long id, BoardCreateDto boardCreateDto) {
         boardRepository.updateBoard(id, boardCreateDto);

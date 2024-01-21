@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<meta charset="UTF-8" />
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>게시판</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+  <link rel="stylesheet" href="styles/index.css">
+</head>
+
+<body>
+  <div class="bg-info-subtle" style="margin-top: 50px; padding: 50px">
+    <div class="d-flex justify-content-around">
+      <div class="row align-items-center">
+        <a th:href="@{/forum}">
+          <img height="100px" width="350px" th:src="@{/images/image.png}" alt="elice 로고">
+        </a>
+      </div>
+      <div class="row align-items-center">
+        <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+          게시판으로 이동!
+        </button>
+        <ul class="dropdown-menu">
+          <li th:each="board : ${boardPage}">
+            <a class="dropdown-item" th:href="@{/forum/{boardId}/posts(boardId=${board.id})}">
+              <span th:text="${board.topic}"></span>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="h-100 container text-center bg-body-secondary">
+
+      <div class="p-3 mb-2 bg-info text-dark" style="margin-top:30px">
+        <h1 style="marg">게시판 목록</h1>
+      </div>
+      <div>
+        <a th:href="@{/forum/createBoard}">
+          <button class="btn btn-primary d-flex justify-content-end" style="text-decoration:none">새로운 게시판 생성</button>
+        </a>
+      </div>
+      <div class="list-group">
+        <ul class="list-group-item">
+          <li class="list-group-item list-group-item-action d-flex justify-content-between" th:each="board : ${boardPage}" >
+            <div class="d-flex justify-content-start">
+              <a class="p-2 flex-fill" style='text-decoration: none; color:black' href="#" th:href="@{/forum/{boardId}/posts(boardId=${board.id})}">
+                <h2 th:text="${board.topic}"></h2>
+              </a>
+              <p class="p-2 flex-fill" th:text="${board.boardDescription}"></p>
+            </div>
+
+            <div class="d-flex align-items-end">
+              <form action="#" th:action="@{'/forum/{boardId}/delete'(boardId=${board.id})}" th:method="delete">
+                <input type="hidden" name="_method" value="delete">
+                <button type="submit" class="btn btn-outline-warning">
+                  삭제
+                </button>
+              </form>
+              <a th:href="@{'/forum/{boardId}/update'(boardId=${board.id})}"><button class="btn btn-outline-primary">수정</button></a>
+            </div>
+          </li>
+        </ul>
+      </div>
+
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+</body>
+
+</html>

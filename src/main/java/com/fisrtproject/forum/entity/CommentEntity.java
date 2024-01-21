@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.sql.Timestamp;
 
@@ -22,12 +23,23 @@ public class CommentEntity {
 //    @ManyToOne
 //    @JoinColumn(name = "user_id")
 //    private UserEntity userEntity;
-//
-//    @ManyToOne
-//    @JoinColumn(name = "post_id")
-//    private PostEntity postEntity;
 
-    private String Content;
-    private Timestamp createdAt;
+    @ManyToOne
+    @JoinColumn(name = "post_id")
+    private PostEntity postEntity;
 
+    private String content;
+
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private String createdAt;
+
+    public CommentEntity(PostEntity postEntity, String content, String createdAt) {
+        this.postEntity = postEntity;
+        this.content = content;
+        this.createdAt = createdAt;
+    }
+
+    public void updateComment(String content) {
+        this.content = content;
+    }
 }
